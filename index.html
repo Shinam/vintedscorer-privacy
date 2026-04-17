@@ -15,27 +15,39 @@
     header {
       background: #00767E;
       color: white;
-      padding: 32px 24px;
+      padding: 28px 24px 24px;
       text-align: center;
     }
-    header h1 { font-size: 28px; font-weight: 800; letter-spacing: -0.02em; }
-    header p  { font-size: 14px; opacity: 0.8; margin-top: 6px; }
+    header h1 { font-size: 26px; font-weight: 800; letter-spacing: -0.02em; }
+    header p  { font-size: 13px; opacity: 0.75; margin-top: 4px; }
+    .lang-switch {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 16px;
+    }
+    .lang-switch button {
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.4);
+      color: white;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 5px 16px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .lang-switch button.active {
+      background: white;
+      color: #00767E;
+      border-color: white;
+    }
+    .lang-switch button:hover:not(.active) { background: rgba(255,255,255,0.25); }
     main {
-      max-width: 720px;
-      margin: 40px auto;
+      max-width: 700px;
+      margin: 36px auto;
       padding: 0 24px 60px;
     }
-    h2 {
-      font-size: 18px;
-      font-weight: 700;
-      color: #00767E;
-      margin: 32px 0 10px;
-      padding-bottom: 6px;
-      border-bottom: 2px solid #e5f7f8;
-    }
-    p, li { font-size: 15px; color: #374151; margin-bottom: 10px; }
-    ul { padding-left: 20px; }
-    li { margin-bottom: 6px; }
     .badge {
       display: inline-block;
       background: #e5f7f8;
@@ -46,13 +58,45 @@
       border-radius: 999px;
       margin-bottom: 20px;
     }
-    .card {
+    .intro {
       background: white;
       border: 1px solid #e5e7eb;
       border-radius: 12px;
-      padding: 20px 24px;
-      margin-top: 16px;
+      padding: 18px 22px;
+      margin-bottom: 8px;
     }
+    h2 {
+      font-size: 17px;
+      font-weight: 700;
+      color: #00767E;
+      margin: 28px 0 8px;
+      padding-bottom: 6px;
+      border-bottom: 2px solid #e5f7f8;
+    }
+    p  { font-size: 15px; color: #374151; margin-bottom: 10px; }
+    ul { padding-left: 20px; margin-bottom: 10px; }
+    li { font-size: 15px; color: #374151; margin-bottom: 6px; }
+    code {
+      background: #f3f4f6;
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-size: 13px;
+      color: #374151;
+    }
+    .contact-card {
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 18px 22px;
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .contact-card .icon { font-size: 28px; }
+    .contact-card a { color: #00767E; font-weight: 600; text-decoration: none; }
+    .contact-card a:hover { text-decoration: underline; }
+    .contact-card p { margin: 0; }
     footer {
       text-align: center;
       font-size: 13px;
@@ -60,70 +104,148 @@
       padding: 20px;
       border-top: 1px solid #e5e7eb;
     }
-    a { color: #00767E; }
+    footer a { color: #00767E; text-decoration: none; }
+    .lang-section { display: none; }
+    .lang-section.visible { display: block; }
   </style>
 </head>
 <body>
 
 <header>
   <h1>🛡 VintedScorer</h1>
-  <p>Privacy Policy — Politique de confidentialité</p>
+  <p>Privacy Policy · Politique de confidentialité</p>
+  <div class="lang-switch">
+    <button id="btn-en" class="active" onclick="setLang('en')">🇬🇧 English</button>
+    <button id="btn-fr" onclick="setLang('fr')">🇫🇷 Français</button>
+  </div>
 </header>
 
 <main>
-  <span class="badge">Last updated: April 2026</span>
 
-  <div class="card">
-    <p><strong>VintedScorer</strong> is a browser extension that analyses prices and detects scam signals on Vinted. We take your privacy seriously — this page explains exactly what data is used and how.</p>
+  <!-- ENGLISH -->
+  <div id="section-en" class="lang-section visible">
+    <span class="badge">Last updated: April 2026</span>
+    <div class="intro">
+      <p><strong>VintedScorer</strong> is a free browser extension that analyses prices and detects scam signals on Vinted. This page explains exactly what data is used and how.</p>
+    </div>
+
+    <h2>📦 Data we collect</h2>
+    <p><strong>We collect no personal data.</strong> VintedScorer does not collect, transmit, store or share any information about you or your browsing activity.</p>
+
+    <h2>💾 Local storage only</h2>
+    <p>The extension stores the following data <strong>locally on your device only</strong>, using <code>chrome.storage.local</code>:</p>
+    <ul>
+      <li>Your language preference (FR or EN)</li>
+      <li>Badge visibility settings for the price clustering popup</li>
+    </ul>
+    <p>This data never leaves your browser and is never sent to any server.</p>
+
+    <h2>🌐 Network requests</h2>
+    <p>VintedScorer makes the following network requests:</p>
+    <ul>
+      <li><strong>Vinted pages</strong> — the extension reads the content of Vinted pages you visit to analyse prices and descriptions. This content is never sent anywhere.</li>
+      <li><strong>Vinted internal API</strong> (<code>/api/v2/users/:id</code>) — to retrieve seller profile data (ratings, transaction history) already visible on Vinted. These requests use your existing Vinted session and go directly to Vinted's servers.</li>
+    </ul>
+    <p>No data from these requests is stored or transmitted to third parties.</p>
+
+    <h2>🔒 Permissions explained</h2>
+    <ul>
+      <li><strong>activeTab</strong> — to read the current Vinted page content for analysis.</li>
+      <li><strong>tabs</strong> — to detect which Vinted domain you're on and update the extension icon.</li>
+      <li><strong>storage</strong> — to save your language preference and badge visibility settings locally.</li>
+      <li><strong>Host permissions (vinted.*)</strong> — to activate the extension only on Vinted domains.</li>
+    </ul>
+
+    <h2>👤 Third parties</h2>
+    <p>VintedScorer does not use any third-party analytics, advertising, or tracking services. No data is shared with any third party.</p>
+
+    <h2>👶 Children's privacy</h2>
+    <p>VintedScorer does not knowingly collect any information from children under 13.</p>
+
+    <h2>📬 Contact</h2>
+    <p>If you have any questions about this privacy policy, feel free to reach out:</p>
+    <div class="contact-card">
+      <div class="icon">✉️</div>
+      <div>
+        <p><a href="mailto:vintedscorer.support@gmail.com">vintedscorer.support@gmail.com</a></p>
+        <p style="font-size:13px;color:#6b7280;margin-top:2px;">We typically respond within 48 hours.</p>
+      </div>
+    </div>
   </div>
 
-  <h2>📦 Data we collect</h2>
-  <p><strong>We collect no personal data.</strong> VintedScorer does not collect, transmit, store or share any information about you or your browsing activity.</p>
+  <!-- FRANÇAIS -->
+  <div id="section-fr" class="lang-section">
+    <span class="badge">Dernière mise à jour : avril 2026</span>
+    <div class="intro">
+      <p><strong>VintedScorer</strong> est une extension de navigateur gratuite qui analyse les prix et détecte les signaux d'arnaque sur Vinted. Cette page explique précisément quelles données sont utilisées et de quelle manière.</p>
+    </div>
 
-  <h2>💾 Local storage only</h2>
-  <p>The extension stores the following data <strong>locally on your device only</strong>, using <code>chrome.storage.local</code>:</p>
-  <ul>
-    <li>Your language preference (FR or EN)</li>
-    <li>Hidden group preferences for the price clustering popup</li>
-  </ul>
-  <p>This data never leaves your browser and is never sent to any server.</p>
+    <h2>📦 Données collectées</h2>
+    <p><strong>Nous ne collectons aucune donnée personnelle.</strong> VintedScorer ne collecte, ne transmet, ne stocke et ne partage aucune information vous concernant ou relative à votre navigation.</p>
 
-  <h2>🌐 Network requests</h2>
-  <p>VintedScorer makes the following network requests:</p>
-  <ul>
-    <li><strong>Vinted pages</strong> — the extension reads the content of Vinted pages you visit to analyse prices and descriptions. It does not send this content anywhere.</li>
-    <li><strong>Vinted internal API</strong> (<code>/api/v2/users/:id</code>) — to fetch seller profile data (ratings, transaction history) already visible on Vinted. These requests use your existing Vinted session cookies and are made directly to Vinted's own servers.</li>
-  </ul>
-  <p>No data from these requests is stored or transmitted to third parties.</p>
+    <h2>💾 Stockage local uniquement</h2>
+    <p>L'extension stocke les données suivantes <strong>uniquement sur votre appareil</strong>, via <code>chrome.storage.local</code> :</p>
+    <ul>
+      <li>Votre préférence de langue (FR ou EN)</li>
+      <li>L'état de visibilité des badges dans le popup de groupes de prix</li>
+    </ul>
+    <p>Ces données ne quittent jamais votre navigateur et ne sont jamais envoyées à un serveur.</p>
 
-  <h2>🔒 Permissions explained</h2>
-  <ul>
-    <li><strong>activeTab</strong> — to read the current Vinted page content for analysis.</li>
-    <li><strong>tabs</strong> — to detect which Vinted domain you're on and update the extension icon.</li>
-    <li><strong>storage</strong> — to save your language preference and group visibility settings locally.</li>
-    <li><strong>Host permissions (vinted.*)</strong> — to activate the extension only on Vinted domains.</li>
-  </ul>
+    <h2>🌐 Requêtes réseau</h2>
+    <p>VintedScorer effectue les requêtes réseau suivantes :</p>
+    <ul>
+      <li><strong>Pages Vinted</strong> — l'extension lit le contenu des pages Vinted que vous visitez pour analyser les prix et les descriptions. Ce contenu n'est jamais envoyé nulle part.</li>
+      <li><strong>API interne Vinted</strong> (<code>/api/v2/users/:id</code>) — pour récupérer les données du profil vendeur (notes, historique) déjà visibles sur Vinted. Ces requêtes utilisent votre session Vinted existante et sont adressées directement aux serveurs de Vinted.</li>
+    </ul>
+    <p>Aucune donnée issue de ces requêtes n'est stockée ni transmise à des tiers.</p>
 
-  <h2>👤 Third parties</h2>
-  <p>VintedScorer does not use any third-party analytics, advertising, or tracking services. No data is shared with any third party.</p>
+    <h2>🔒 Explication des autorisations</h2>
+    <ul>
+      <li><strong>activeTab</strong> — pour lire le contenu de la page Vinted active et effectuer l'analyse.</li>
+      <li><strong>tabs</strong> — pour détecter le domaine Vinted visité et mettre à jour l'icône de l'extension.</li>
+      <li><strong>storage</strong> — pour sauvegarder localement vos préférences de langue et la visibilité des badges.</li>
+      <li><strong>Autorisations d'hôte (vinted.*)</strong> — pour activer l'extension uniquement sur les domaines Vinted.</li>
+    </ul>
 
-  <h2>👶 Children's privacy</h2>
-  <p>VintedScorer does not knowingly collect any information from children under 13.</p>
+    <h2>👤 Tiers</h2>
+    <p>VintedScorer n'utilise aucun service tiers d'analyse, de publicité ou de tracking. Aucune donnée n'est partagée avec des tiers.</p>
 
-  <h2>📬 Contact</h2>
-  <p>If you have any questions about this privacy policy, you can open an issue on the extension's support page or contact us via the Chrome Web Store listing.</p>
+    <h2>👶 Protection des mineurs</h2>
+    <p>VintedScorer ne collecte sciemment aucune information concernant des enfants de moins de 13 ans.</p>
 
-  <hr style="border:none;border-top:1px solid #e5e7eb;margin:32px 0;">
-
-  <h2>🇫🇷 Version française</h2>
-  <p>VintedScorer ne collecte aucune donnée personnelle. Toutes les préférences (langue, groupes masqués) sont stockées uniquement sur votre appareil via <code>chrome.storage.local</code> et ne sont jamais transmises à un serveur.</p>
-  <p>Les requêtes réseau effectuées (pages Vinted et API interne Vinted) utilisent votre session existante et ne transmettent aucune donnée à des tiers. Aucun service d'analyse ou de publicité tiers n'est utilisé.</p>
+    <h2>📬 Contact</h2>
+    <p>Pour toute question relative à cette politique de confidentialité, n'hésitez pas à nous contacter :</p>
+    <div class="contact-card">
+      <div class="icon">✉️</div>
+      <div>
+        <p><a href="mailto:vintedscorer.support@gmail.com">vintedscorer.support@gmail.com</a></p>
+        <p style="font-size:13px;color:#6b7280;margin-top:2px;">Nous répondons généralement sous 48 heures.</p>
+      </div>
+    </div>
+  </div>
 
 </main>
 
 <footer>
-  VintedScorer · Privacy Policy · <a href="https://chromewebstore.google.com">Chrome Web Store</a>
+  VintedScorer &middot;
+  <a href="https://chromewebstore.google.com/detail/aajpapfbccjmhljcciogfinfjdmggebd">Chrome Web Store</a> &middot;
+  <a href="mailto:vintedscorer.support@gmail.com">Contact</a>
 </footer>
+
+<script>
+  function setLang(lang) {
+    document.getElementById('section-en').classList.toggle('visible', lang === 'en');
+    document.getElementById('section-fr').classList.toggle('visible', lang === 'fr');
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+    document.getElementById('btn-fr').classList.toggle('active', lang === 'fr');
+    document.documentElement.lang = lang;
+    localStorage.setItem('pp_lang', lang);
+  }
+  // Restore on load — auto-detect browser language as fallback
+  const saved = localStorage.getItem('pp_lang');
+  const auto  = navigator.language?.startsWith('fr') ? 'fr' : 'en';
+  setLang(saved || auto);
+</script>
 
 </body>
 </html>
